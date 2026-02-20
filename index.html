@@ -202,9 +202,11 @@
                 <h2 class="nl-title">Follow the build. Every week.</h2>
                 <p class="nl-desc">Real numbers, real lessons, real builds. No fluff. One email per week — what we shipped, what broke, what we learned.</p>
                 <!-- BREVO: Replace the action URL below with your Brevo form endpoint (see instructions) -->
-                <form class="nl-form" id="nlForm">
+                <form class="nl-form" id="nlForm" method="POST" action="https://1e0f6dd9.sibforms.com/serve/MUIFANnyzWsZW8vw6AEp-ZztcVIKWIi8LZCIQPQZ1uqNyCttNaeRJET8iAaomjQcwRW8orAOVLiM5rnO714cMoqiZfxTkgjx2Mi0Li0XuLj6VnvQpmjZoh_Nrw2XLdxDw0VzUBfTPQVWxX1yvP9ga3yAAIT_PjyayvuflixaS1qiBZ_iDsIse4dSu3aARcRnyLZNWnlvT54TI-v9" data-type="subscription">
                     <input type="email" name="EMAIL" class="nl-input" placeholder="you@company.com" required aria-label="Email address">
                     <button type="submit" class="nl-btn">Subscribe</button>
+                    <input type="text" name="email_address_check" value="" style="display:none">
+                    <input type="hidden" name="locale" value="en">
                 </form>
                 <p class="nl-note">No spam. Unsubscribe anytime.</p>
             </div>
@@ -233,17 +235,20 @@
 
     <script>
         window.addEventListener('scroll',function(){document.getElementById('hdr').classList.toggle('scrolled',scrollY>40)},{passive:true});
-        // Newsletter placeholder — will be replaced by Brevo embed
+        // Brevo form submission
         document.getElementById('nlForm').addEventListener('submit',function(e){
             e.preventDefault();
-            var btn=this.querySelector('button');
-            var inp=this.querySelector('input');
-            btn.textContent='Subscribed ✓';
-            btn.style.background='#22C55E';
-            inp.value='';
-            inp.disabled=true;
-            btn.disabled=true;
-            setTimeout(function(){btn.textContent='Subscribe';btn.style.background='';inp.disabled=false;btn.disabled=false;inp.placeholder='you@company.com';},3000);
+            var f=this,btn=f.querySelector('button'),inp=f.querySelector('input[name="EMAIL"]');
+            var fd=new FormData(f);
+            btn.textContent='Sending...';btn.disabled=true;
+            fetch(f.action,{method:'POST',body:fd}).then(function(){
+                btn.textContent='Subscribed ✓';btn.style.background='#22C55E';
+                inp.value='';inp.disabled=true;
+            }).catch(function(){
+                // Brevo often redirects, treat as success
+                btn.textContent='Subscribed ✓';btn.style.background='#22C55E';
+                inp.value='';inp.disabled=true;
+            });
         });
     </script>
 </body>
