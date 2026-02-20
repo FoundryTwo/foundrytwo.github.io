@@ -228,12 +228,22 @@
                 </div>
             </div>
             <div class="footer-legal">
+                <p style="margin-bottom:8px;"><a href="/mentions-legales.html">Mentions légales</a> · <a href="/confidentialite.html">Privacy</a></p>
                 <p>&copy; 2026 FoundryTwo — A product of <a href="https://altidigitech.com" target="_blank" rel="noopener">Alti DigiTech SASU</a>. <a href="mailto:hello@foundrytwo.com">hello@foundrytwo.com</a></p>
             </div>
         </div>
     </footer>
 
+    <!-- Cookie Banner -->
+    <div id="cookieBanner" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:999;background:#111118;border-top:1px solid #1E1E2E;padding:14px 24px;font-family:var(--font-body);font-size:13px;color:#9CA3AF;">
+        <div style="max-width:960px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
+            <span>This site uses only essential cookies (session). We use <a href="https://plausible.io" target="_blank" rel="noopener" style="color:#F59E0B;text-decoration:none;">Plausible Analytics</a> which is cookie-free. <a href="/confidentialite.html" style="color:#9CA3AF;text-decoration:underline;">Learn more</a></span>
+            <button onclick="document.getElementById('cookieBanner').style.display='none';localStorage.setItem('f2_cookie_ok','1');" style="background:#F59E0B;color:#0A0A0F;border:none;padding:6px 18px;border-radius:4px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;">Got it</button>
+        </div>
+    </div>
+
     <script>
+        if(!localStorage.getItem('f2_cookie_ok')){document.getElementById('cookieBanner').style.display='block';}
         window.addEventListener('scroll',function(){document.getElementById('hdr').classList.toggle('scrolled',scrollY>40)},{passive:true});
         // Brevo form submission
         document.getElementById('nlForm').addEventListener('submit',function(e){
